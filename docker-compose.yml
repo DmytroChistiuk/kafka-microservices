@@ -1,0 +1,39 @@
+version: '3'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    networks: 
+    - kafka_network
+    ports:
+      - "2181:2181"
+  kafka:
+      image: wurstmeister/kafka
+      networks: 
+      - kafka_network
+      ports:
+        - "9092:9092"
+      environment:
+        # KAFKA_ADVERTISED_HOST_NAME: 172.30.32.1
+        KAFKA_ADVERTISED_HOST_NAME: localhost
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  transaction:
+    networks: 
+    - kafka_network
+    build: transaction/
+  sms:
+    networks: 
+    - kafka_network
+    build: sms/
+  archive:
+    networks: 
+    - kafka_network
+    build: archive/
+networks:
+  kafka_network:
+    name: kafka_docker_net
+    driver: bridge

@@ -1,0 +1,6 @@
+[http-nio-8080-exec-2] INFO  com.example.transaction.TransactionService  - Transaction with id = 424 is processing ...
+
+[http-nio-8080-exec-2] INFO  com.example.transaction.TransactionService  - Transaction x ended.
+100$ was successfully added to NATASHA account!
+[org.springframework.kafka.KafkaListenerEndpointContainer#0-0-C-1] INFO  com.example.archive.ArchiveService  - Transaction with id = 424 add to archive ...
+
